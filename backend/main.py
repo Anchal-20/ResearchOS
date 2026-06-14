@@ -1,14 +1,20 @@
+from pathlib import Path
+
 from pdf_processor import extract_text_from_pdf, chunk_text
 from gemini_chat import ask_gemini
+from vector_store import store_chunks
 
 
 def main():
 
-    pdf_path = "../data/sample.pdf"
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
-    text = extract_text_from_pdf(pdf_path)
+    pdf_path = BASE_DIR / "data" / "sample.pdf"
+
+    text = extract_text_from_pdf(str(pdf_path))
 
     chunks = chunk_text(text)
+    store_chunks(chunks)
 
     print(f"\nTotal Chunks Created: {len(chunks)}")
 
